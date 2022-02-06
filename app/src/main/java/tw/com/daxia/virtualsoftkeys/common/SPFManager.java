@@ -61,7 +61,7 @@ public class SPFManager {
      */
     public static int getTouchviewPortraitHeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
-        return settings.getInt(CONFIG_P_TOUCHVIEW_HEIGHT, ScreenHepler.getDefautlTouchviewHeight(context));
+        return settings.getInt(CONFIG_P_TOUCHVIEW_HEIGHT, ScreenHelper.getDefautlTouchviewHeight(context));
     }
 
     public static void setTouchviewPortraitHeight(Context context, int heightPx) {
@@ -73,7 +73,7 @@ public class SPFManager {
 
     public static int getTouchviewPortraitWidth(Context context) {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
-        return settings.getInt(CONFIG_P_TOUCHVIEW_WIDTH, ScreenHepler.getDefautlTouchviewWidth());
+        return settings.getInt(CONFIG_P_TOUCHVIEW_WIDTH, ScreenHelper.getDefautlTouchviewWidth());
     }
 
     public static void setTouchviewPortraitWidth(Context context, int widthPx) {
@@ -102,7 +102,7 @@ public class SPFManager {
 
     public static int getTouchviewLandscapeHeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
-        return settings.getInt(CONFIG_L_TOUCHVIEW_HEIGHT, ScreenHepler.getDefautlTouchviewHeight(context));
+        return settings.getInt(CONFIG_L_TOUCHVIEW_HEIGHT, ScreenHelper.getDefautlTouchviewHeight(context));
     }
 
     public static void setTouchviewLandscapeHeight(Context context, int heightPx) {
@@ -114,7 +114,7 @@ public class SPFManager {
 
     public static int getTouchviewLandscapeWidth(Context context) {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
-        return settings.getInt(CONFIG_L_TOUCHVIEW_WIDTH, ScreenHepler.getDefautlTouchviewWidth());
+        return settings.getInt(CONFIG_L_TOUCHVIEW_WIDTH, ScreenHelper.getDefautlTouchviewWidth());
     }
 
     public static void setTouchviewLandscapeWidth(Context context, int widthPx) {

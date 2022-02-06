@@ -21,7 +21,7 @@ import java.lang.ref.WeakReference;
 import tw.com.daxia.virtualsoftkeys.R;
 import tw.com.daxia.virtualsoftkeys.common.PermissionUtils;
 import tw.com.daxia.virtualsoftkeys.common.SPFManager;
-import tw.com.daxia.virtualsoftkeys.common.ScreenHepler;
+import tw.com.daxia.virtualsoftkeys.common.ScreenHelper;
 import tw.com.daxia.virtualsoftkeys.service.view.SoftKeyTabletLandscapeView;
 import tw.com.daxia.virtualsoftkeys.service.view.SoftKeyView;
 import tw.com.daxia.virtualsoftkeys.service.view.TouchEventView;
@@ -68,7 +68,7 @@ public class ServiceFloating extends AccessibilityService {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (ScreenHepler.isPortrait(getResources())) {
+        if (ScreenHelper.isPortrait(getResources())) {
             isPortrait = true;
             updateTouchView(SPFManager.getTouchviewPortraitHeight(this), SPFManager.getTouchviewPortraitWidth(this),
                     SPFManager.getTouchviewPortraitPosition(this));
@@ -103,7 +103,7 @@ public class ServiceFloating extends AccessibilityService {
         boolean canDrawOverlays = PermissionUtils.checkSystemAlertWindowPermission(this);
         if (canDrawOverlays) {
             windowManager = (WindowManager) getSystemService(Service.WINDOW_SERVICE);
-            if (ScreenHepler.isPortrait(getResources())) {
+            if (ScreenHelper.isPortrait(getResources())) {
                 isPortrait = true;
             } else {
                 isPortrait = false;

@@ -14,7 +14,7 @@ import android.widget.SeekBar
 import tw.com.daxia.virtualsoftkeys.MainActivity
 import tw.com.daxia.virtualsoftkeys.R
 import tw.com.daxia.virtualsoftkeys.common.SPFManager
-import tw.com.daxia.virtualsoftkeys.common.ScreenHepler
+import tw.com.daxia.virtualsoftkeys.common.ScreenHelper
 import tw.com.daxia.virtualsoftkeys.common.ThemeHelper
 import tw.com.daxia.virtualsoftkeys.databinding.FragmentTouchconfigBinding
 import tw.com.daxia.virtualsoftkeys.service.ServiceFloating
@@ -147,12 +147,17 @@ class TouchConfigFragment : Fragment() {
         }
     }
 
-
+    override fun onAttach(context: Context) {
+        Log.d(TAG,"onAttach")
+        super.onAttach(context)
+        mainActivity = activity as MainActivity
+    }
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         Log.d(TAG,"onCreateView")
         _binding = FragmentTouchconfigBinding.inflate(inflater, container, false)
+        //mainActivity = MainActivity()
         return binding.root
     }
 
@@ -165,11 +170,7 @@ class TouchConfigFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    /*override fun onAttach(context: Context?) {
-        Log.d(TAG,"onAttach")
-        super.onAttach(context)
-        mainActivity = activity as MainActivity
-    }*/
+
 
     /*
      * To update touch view position or revert value form spf
@@ -197,7 +198,6 @@ class TouchConfigFragment : Fragment() {
             configColor = ThemeHelper.getColorResource(mainActivity, R.color.config_portrait_color)
         } else {
             binding.TVConfigName.text = getString(R.string.config_name_landscape)
-
             configColor = ThemeHelper.getColorResource(mainActivity, R.color.config_landscape_color)
         }
         binding.TVConfigName.setTextColor(configColor)
@@ -222,8 +222,8 @@ class TouchConfigFragment : Fragment() {
 
     private fun initSeekBarContent() {
         //Default
-        val screenHeight = ScreenHepler.getScreenHeight(mainActivity)
-        this.screenWidth = ScreenHepler.getScreenWidth(mainActivity)
+        val screenHeight = ScreenHelper.getScreenHeight(mainActivity)
+        this.screenWidth = ScreenHelper.getScreenWidth(mainActivity)
         val touchviewWidth: Int
         //Default Height init
         binding.SeekTouchAreaHeight.max = screenHeight / MainActivity.MAX_HEIGHT_PERCENTAGE
@@ -237,7 +237,7 @@ class TouchConfigFragment : Fragment() {
             binding.SeekTouchAreaHeight.progress = SPFManager.getTouchviewPortraitHeight(mainActivity)
             //position  + Width
             //For match content
-            if (touchviewWidth == ScreenHepler.getDefautlTouchviewWidth()) {
+            if (touchviewWidth == ScreenHelper.getDefautlTouchviewWidth()) {
                 binding.SeekTouchAreaWidth.progress = screenWidth
                 //set position
                 updateTouchViewPosition(screenWidth, SPFManager.getTouchviewPortraitPosition(mainActivity))
@@ -252,7 +252,7 @@ class TouchConfigFragment : Fragment() {
             binding.SeekTouchAreaHeight.progress = SPFManager.getTouchviewLandscapeHeight(mainActivity)
             //position  + Width
             //For match content
-            if (touchviewWidth == ScreenHepler.getDefautlTouchviewWidth()) {
+            if (touchviewWidth == ScreenHelper.getDefautlTouchviewWidth()) {
                 binding.SeekTouchAreaHeight.progress = screenWidth
                 //set position
                 updateTouchViewPosition(screenWidth, SPFManager.getTouchviewLandscapePosition(mainActivity))

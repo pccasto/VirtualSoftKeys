@@ -20,15 +20,14 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-//import butterknife.BindView;
-//import butterknife.ButterKnife;
 import tw.com.daxia.virtualsoftkeys.common.PermissionUtils;
 import tw.com.daxia.virtualsoftkeys.common.SPFManager;
-import tw.com.daxia.virtualsoftkeys.common.ScreenHepler;
+import tw.com.daxia.virtualsoftkeys.common.ScreenHelper;
 import tw.com.daxia.virtualsoftkeys.common.ThemeHelper;
 import tw.com.daxia.virtualsoftkeys.config.CustomizedThemeFragment;
 import tw.com.daxia.virtualsoftkeys.config.FunctionConfigFragment;
 import tw.com.daxia.virtualsoftkeys.config.TouchConfigFragment;
+import tw.com.daxia.virtualsoftkeys.databinding.ActivityMainBinding;
 import tw.com.daxia.virtualsoftkeys.service.ServiceFloating;
 import tw.com.daxia.virtualsoftkeys.ui.AboutDialog;
 import tw.com.daxia.virtualsoftkeys.ui.AccessibilityServiceErrorDialog;
@@ -46,14 +45,10 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     private final static String permissionDialogTAG = "permissionDialog";
     private final static String accessibilityServiceDialogTAG = "accessibilityServiceDialog";
 
-    //@BindView(R.id.View_touchviewer)
     public View ViewTouchviewer;
-   // @BindView(R.id.tablayout)
-    TabLayout tablayout;
-    //@BindView(R.id.RL_content)
-    RelativeLayout RLContent;
-    //@BindView(R.id.viewpager)
-    ViewPager viewpager;
+    public TabLayout tablayout;
+    public ViewPager viewpager;
+    public RelativeLayout RLContent;
 
     /*
      * Permission
@@ -80,22 +75,28 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
      * Config
      */
     private boolean isPortrait;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //binding = ActivityMainBinding.inflate(layoutInflater);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        //View view = binding.getRoot();
+        setContentView(binding.getRoot());
+        Log.d(TAG,"set content view in main");
+
+        ViewTouchviewer = findViewById(R.id.View_touchviewer);
+        RLContent = findViewById(R.id.RL_content);
+        tablayout = findViewById(R.id.tablayout);
+        viewpager = findViewById(R.id.viewpager);
+        //Menu x = findViewById(R.id.menu_about);
 
         /*
          * Init the conf
          */
         //Init orientation
-        if (ScreenHepler.isPortrait(getResources())) {
-            isPortrait = true;
-        } else {
-            isPortrait = false;
-        }
+
+        isPortrait = ScreenHelper.isPortrait(getResources());
         //Init UI
         initUIStyle();
         initTablayout();
@@ -109,11 +110,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         //Reset the seekbar
-        if (ScreenHepler.isPortrait(getResources())) {
-            isPortrait = true;
-        } else {
-            isPortrait = false;
-        }
+        isPortrait = ScreenHelper.isPortrait(getResources());
         //Init UI
         initUIStyle();
     }
@@ -218,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
 
 
     private void showDescription() {
+        Log.d(TAG,"showDescription");
         if (!SPFManager.getDescriptionClose(this)) {
             descriptionDialog = new DescriptionDialog();
             descriptionDialog.show(this.getSupportFragmentManager(), descriptionDialogTAG);
@@ -225,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     }
 
     private void initUIStyle() {
+        Log.d(TAG,"initUIStyle");
         int configColor;
         if (isPortrait) {
             configColor = ThemeHelper.getColorResource(this, R.color.config_portrait_color);
@@ -235,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     }
 
     private void initTablayout() {
+        Log.d(TAG,"initTabLayout");
         //init viewpager
         tablayoutFragmentList = new ArrayList<>();
         tablayoutFragmentList.add(TouchConfigFragment.Companion.newInstance());

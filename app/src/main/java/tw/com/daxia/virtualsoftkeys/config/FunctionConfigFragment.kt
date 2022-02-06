@@ -37,6 +37,12 @@ class FunctionConfigFragment : Fragment(){
 
     private lateinit var mainActivity: MainActivity
 
+    override fun onAttach(context: Context) {
+        Log.d(TAG,"onAttach")
+        super.onAttach(context)
+        mainActivity = activity as MainActivity
+    }
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -50,13 +56,6 @@ class FunctionConfigFragment : Fragment(){
         Log.d(TAG,"onViewCreated")
         initSharedConfig()
     }
-
-    /*override fun onAttach(context: Context?) {
-        Log.d(TAG,"onAttach")
-        super.onAttach(context)
-        mainActivity = activity as MainActivity
-    }*/
-
 
     private fun initSharedConfig() {
         //StylusMode

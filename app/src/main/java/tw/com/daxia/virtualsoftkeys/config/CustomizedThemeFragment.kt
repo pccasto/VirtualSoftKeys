@@ -31,6 +31,11 @@ class CustomizedThemeFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
 
+    override fun onAttach(context: Context) {
+        Log.d(TAG, "onAttach")
+        super.onAttach(context)
+        mainActivity = activity as MainActivity
+    }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -50,12 +55,6 @@ class CustomizedThemeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    /*override fun onAttach(context: Context?) {
-        Log.d(TAG, "onAttach")
-        super.onAttach(context)
-        mainActivity = activity as MainActivity
-    }*/
-
 
     private fun initSharedConfig() {
         //revert home long click

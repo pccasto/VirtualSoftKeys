@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 
 import tw.com.daxia.virtualsoftkeys.R;
 import tw.com.daxia.virtualsoftkeys.common.SPFManager;
-import tw.com.daxia.virtualsoftkeys.common.ScreenHepler;
+import tw.com.daxia.virtualsoftkeys.common.ScreenHelper;
 import tw.com.daxia.virtualsoftkeys.common.ThemeHelper;
 import tw.com.daxia.virtualsoftkeys.service.ServiceFloating;
 
@@ -39,7 +39,7 @@ public class SoftKeyTabletLandscapeView extends SoftKeyView {
 
     @Override
     void initBaseViewTheme() {
-        this.softkeyBarHeight = ScreenHepler.dpToPixel(accessibilityService.getResources(), 48);
+        this.softkeyBarHeight = ScreenHelper.dpToPixel(accessibilityService.getResources(), 48);
         int backgroundColor = SPFManager.getSoftKeyBarBgGolor(accessibilityService);
         this.baseView.setBackgroundColor(backgroundColor);
 

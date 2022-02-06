@@ -12,7 +12,7 @@ import android.view.ViewGroup;
  * Created by daxia on 2016/9/23.
  */
 
-public class ScreenHepler {
+public class ScreenHelper {
 
     private final static int DEFAULT_TOUCHVIEW_HEIGHT_DP = 10;
     private final static int DEFAULT_TOUCHVIEW_WIDTH = ViewGroup.LayoutParams.MATCH_PARENT;
