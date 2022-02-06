@@ -4,24 +4,29 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.SeekBar
-import kotlinx.android.synthetic.main.fragment_touchconfig.*
 import tw.com.daxia.virtualsoftkeys.MainActivity
 import tw.com.daxia.virtualsoftkeys.R
 import tw.com.daxia.virtualsoftkeys.common.SPFManager
 import tw.com.daxia.virtualsoftkeys.common.ScreenHepler
 import tw.com.daxia.virtualsoftkeys.common.ThemeHelper
+import tw.com.daxia.virtualsoftkeys.databinding.FragmentTouchconfigBinding
 import tw.com.daxia.virtualsoftkeys.service.ServiceFloating
 
 class TouchConfigFragment : Fragment() {
 
     private val TAG = "TouchConfigFragment"
+
+    private var _binding: FragmentTouchconfigBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
     companion object {
         fun newInstance(): TouchConfigFragment {
@@ -72,9 +77,9 @@ class TouchConfigFragment : Fragment() {
             //make touch view position rollback to default
             updateTouchViewPosition(seekBar.progress, -1)
             if (mainActivity.isPortrait) {
-                SPFManager.setTouchviewPortraitPosition(mainActivity, Seek_touch_area_position.progress)
+                SPFManager.setTouchviewPortraitPosition(mainActivity, binding.SeekTouchAreaPosition.progress)
             } else {
-                SPFManager.setTouchviewLandscapePosition(mainActivity, Seek_touch_area_position.progress)
+                SPFManager.setTouchviewLandscapePosition(mainActivity, binding.SeekTouchAreaPosition.progress)
             }
             var mAccessibilityService: ServiceFloating? = ServiceFloating.getSharedInstance()
             if (seekBar.progress == seekBar.max) {
@@ -85,7 +90,7 @@ class TouchConfigFragment : Fragment() {
 
                 }
                 if (mAccessibilityService != null) {
-                    mAccessibilityService.updateTouchView(null, ViewGroup.LayoutParams.MATCH_PARENT, Seek_touch_area_position.progress)
+                    mAccessibilityService.updateTouchView(null, ViewGroup.LayoutParams.MATCH_PARENT, binding.SeekTouchAreaPosition.progress)
                     mAccessibilityService = null
                 }
             } else {
@@ -95,7 +100,11 @@ class TouchConfigFragment : Fragment() {
                     SPFManager.setTouchviewLandscapeWidth(mainActivity, seekBar.progress)
                 }
                 if (mAccessibilityService != null) {
-                    mAccessibilityService.updateTouchView(null, seekBar.progress, Seek_touch_area_position.progress)
+                    mAccessibilityService.updateTouchView(
+                        null,
+                        seekBar.progress,
+                        binding.SeekTouchAreaPosition.progress
+                    )
                     mAccessibilityService = null
                 }
             }
@@ -141,9 +150,10 @@ class TouchConfigFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         Log.d(TAG,"onCreateView")
-        return inflater.inflate(R.layout.fragment_touchconfig, container, false)
+        _binding = FragmentTouchconfigBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -151,23 +161,26 @@ class TouchConfigFragment : Fragment() {
         initSeekBar()
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+    /*override fun onAttach(context: Context?) {
         Log.d(TAG,"onAttach")
         super.onAttach(context)
         mainActivity = activity as MainActivity
-    }
+    }*/
 
     /*
      * To update touch view position or revert value form spf
      */
     private fun updateTouchViewPosition(toughviewWidth: Int, positionFromSPF: Int) {
-        Seek_touch_area_position.max = screenWidth - toughviewWidth
-        Seek_touch_area_position.max = screenWidth - toughviewWidth
+        binding.SeekTouchAreaPosition.max = screenWidth - toughviewWidth
         if (positionFromSPF >= 0) {
-            Seek_touch_area_position.progress = positionFromSPF
+            binding.SeekTouchAreaPosition.progress = positionFromSPF
         } else {
             //Default is in center horizontal
-            Seek_touch_area_position.progress = screenWidth / 2 - toughviewWidth / 2
+            binding.SeekTouchAreaPosition.progress = screenWidth / 2 - toughviewWidth / 2
         }
     }
 
@@ -180,31 +193,31 @@ class TouchConfigFragment : Fragment() {
     private fun initSeekBarStyle() {
         val configColor: Int
         if (mainActivity.isPortrait) {
-            TV_config_name.text = getString(R.string.config_name_portrait)
+            binding.TVConfigName.text = getString(R.string.config_name_portrait)
             configColor = ThemeHelper.getColorResource(mainActivity, R.color.config_portrait_color)
         } else {
-            TV_config_name.text = getString(R.string.config_name_landscape)
+            binding.TVConfigName.text = getString(R.string.config_name_landscape)
 
             configColor = ThemeHelper.getColorResource(mainActivity, R.color.config_landscape_color)
         }
-        TV_config_name.setTextColor(configColor)
-        Seek_touch_area_height.progressDrawable.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
-        Seek_touch_area_height.thumb.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
-        Seek_touch_area_width.progressDrawable.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
-        Seek_touch_area_width.thumb.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
-        Seek_touch_area_position.progressDrawable.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
-        Seek_touch_area_position.thumb.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
+        binding.TVConfigName.setTextColor(configColor)
+        binding.SeekTouchAreaHeight.progressDrawable.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
+        binding.SeekTouchAreaHeight.thumb.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
+        binding.SeekTouchAreaWidth.progressDrawable.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
+        binding.SeekTouchAreaWidth.thumb.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
+        binding.SeekTouchAreaPosition.progressDrawable.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
+        binding.SeekTouchAreaPosition.thumb.colorFilter = PorterDuffColorFilter(configColor, PorterDuff.Mode.SRC_IN)
     }
 
     private fun initSeekBarListener(){
-        Seek_touch_area_height.setOnSeekBarChangeListener(touchviewHeightSeekBarListener);
-        Seek_touch_area_height.isSaveEnabled = false
+        binding.SeekTouchAreaHeight.setOnSeekBarChangeListener(touchviewHeightSeekBarListener)
+        binding.SeekTouchAreaHeight.isSaveEnabled = false
 
-        Seek_touch_area_width.setOnSeekBarChangeListener(touchviewWidthSeekBarListener);
-        Seek_touch_area_width.isSaveEnabled = false
+        binding.SeekTouchAreaWidth.setOnSeekBarChangeListener(touchviewWidthSeekBarListener)
+        binding.SeekTouchAreaWidth.isSaveEnabled = false
 
-        Seek_touch_area_position.setOnSeekBarChangeListener(touchviewPositionSeekBarListener);
-        Seek_touch_area_position.isSaveEnabled = false
+        binding.SeekTouchAreaPosition.setOnSeekBarChangeListener(touchviewPositionSeekBarListener)
+        binding.SeekTouchAreaPosition.isSaveEnabled = false
     }
 
     private fun initSeekBarContent() {
@@ -213,38 +226,38 @@ class TouchConfigFragment : Fragment() {
         this.screenWidth = ScreenHepler.getScreenWidth(mainActivity)
         val touchviewWidth: Int
         //Default Height init
-        Seek_touch_area_height.max = screenHeight / MainActivity.MAX_HEIGHT_PERCENTAGE
+        binding.SeekTouchAreaHeight.max = screenHeight / MainActivity.MAX_HEIGHT_PERCENTAGE
 
         //Default width init
-        Seek_touch_area_width.max = screenWidth
+        binding.SeekTouchAreaWidth.max = screenWidth
 
         if (mainActivity.isPortrait) {
             touchviewWidth = SPFManager.getTouchviewPortraitWidth(mainActivity)
             //Height
-            Seek_touch_area_height.progress = SPFManager.getTouchviewPortraitHeight(mainActivity)
+            binding.SeekTouchAreaHeight.progress = SPFManager.getTouchviewPortraitHeight(mainActivity)
             //position  + Width
             //For match content
             if (touchviewWidth == ScreenHepler.getDefautlTouchviewWidth()) {
-                Seek_touch_area_width.progress = screenWidth
+                binding.SeekTouchAreaWidth.progress = screenWidth
                 //set position
                 updateTouchViewPosition(screenWidth, SPFManager.getTouchviewPortraitPosition(mainActivity))
             } else {
-                Seek_touch_area_width.progress = touchviewWidth
+                binding.SeekTouchAreaWidth.progress = touchviewWidth
                 //set position
                 updateTouchViewPosition(touchviewWidth, SPFManager.getTouchviewPortraitPosition(mainActivity))
             }
         } else {
             touchviewWidth = SPFManager.getTouchviewLandscapeWidth(mainActivity)
             //Height
-            Seek_touch_area_height.progress = SPFManager.getTouchviewLandscapeHeight(mainActivity)
+            binding.SeekTouchAreaHeight.progress = SPFManager.getTouchviewLandscapeHeight(mainActivity)
             //position  + Width
             //For match content
             if (touchviewWidth == ScreenHepler.getDefautlTouchviewWidth()) {
-                Seek_touch_area_width.progress = screenWidth
+                binding.SeekTouchAreaHeight.progress = screenWidth
                 //set position
                 updateTouchViewPosition(screenWidth, SPFManager.getTouchviewLandscapePosition(mainActivity))
             } else {
-                Seek_touch_area_width.progress = touchviewWidth
+                binding.SeekTouchAreaWidth.progress = touchviewWidth
                 //set position
                 updateTouchViewPosition(touchviewWidth, SPFManager.getTouchviewLandscapePosition(mainActivity))
             }

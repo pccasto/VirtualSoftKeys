@@ -5,18 +5,18 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import kotlinx.android.synthetic.main.fragment_functionconfig.*
 import tw.com.daxia.virtualsoftkeys.MainActivity
 import tw.com.daxia.virtualsoftkeys.R
 import tw.com.daxia.virtualsoftkeys.common.Link.MY_GIT_HUB_URL
 import tw.com.daxia.virtualsoftkeys.common.SPFManager
+import tw.com.daxia.virtualsoftkeys.databinding.FragmentFunctionconfigBinding
 import tw.com.daxia.virtualsoftkeys.service.ServiceFloating
 import tw.com.daxia.virtualsoftkeys.ui.ColorPickerDialogFragment
 
@@ -30,12 +30,20 @@ class FunctionConfigFragment : Fragment(){
         }
     }
 
+    private var _binding: FragmentFunctionconfigBinding? = null
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
+
     private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_functionconfig, container, false)
+                              savedInstanceState: Bundle?): View {
+                _binding = FragmentFunctionconfigBinding.inflate(inflater,
+                        container,
+            false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,55 +51,55 @@ class FunctionConfigFragment : Fragment(){
         initSharedConfig()
     }
 
-    override fun onAttach(context: Context?) {
+    /*override fun onAttach(context: Context?) {
         Log.d(TAG,"onAttach")
         super.onAttach(context)
         mainActivity = activity as MainActivity
-    }
+    }*/
 
 
     private fun initSharedConfig() {
         //StylusMode
-        CTV_stylus_only_mode.isChecked = SPFManager.getStylusOnlyMode(mainActivity)
-        CTV_stylus_only_mode.setOnClickListener {
-            CTV_stylus_only_mode.toggle()
-            SPFManager.setStylusOnlyMode(mainActivity, CTV_stylus_only_mode.isChecked)
+        binding.CTVStylusOnlyMode.isChecked = SPFManager.getStylusOnlyMode(mainActivity)
+        binding.CTVStylusOnlyMode.setOnClickListener {
+            binding.CTVStylusOnlyMode.toggle()
+            SPFManager.setStylusOnlyMode(mainActivity, binding.CTVStylusOnlyMode.isChecked)
             val mAccessibilityService = ServiceFloating.getSharedInstance()
             mAccessibilityService?.updateTouchViewConfigure()
         }
         //Disappear time
         initDisappearSpinner()
         //Reverse button position
-        CTV_reverse_button.isChecked = SPFManager.getReverseFunctionButton(mainActivity)
-        CTV_reverse_button.setOnClickListener {
-            CTV_reverse_button.toggle()
-            SPFManager.setReverseFunctionButton(mainActivity, CTV_reverse_button.isChecked)
+        binding.CTVReverseButton.isChecked = SPFManager.getReverseFunctionButton(mainActivity)
+        binding.CTVReverseButton.setOnClickListener {
+            binding.CTVReverseButton.toggle()
+            SPFManager.setReverseFunctionButton(mainActivity, binding.CTVReverseButton.isChecked)
             val mAccessibilityService = ServiceFloating.getSharedInstance()
             mAccessibilityService?.refreshSoftKey()
         }
         //make bar bg be transparent
-        IV_bg_color.setImageDrawable(ColorDrawable(SPFManager.getSoftKeyBarBgGolor(mainActivity)))
-        IV_bg_color.setOnClickListener {
+        binding.IVBgColor.setImageDrawable(ColorDrawable(SPFManager.getSoftKeyBarBgGolor(mainActivity)))
+        binding.IVBgColor.setOnClickListener {
             val secColorPickerFragment = ColorPickerDialogFragment.newInstance(SPFManager.getSoftKeyBarBgGolor(mainActivity))
             secColorPickerFragment.show(mainActivity.supportFragmentManager, "ColorPickerFragment")
         }
         //smart hieedn
-        CTV_smart_hidden.isChecked = SPFManager.getSmartHidden(mainActivity)
-        CTV_smart_hidden.setOnClickListener {
-            CTV_smart_hidden.toggle()
-            SPFManager.setSmartHidden(mainActivity, CTV_smart_hidden.isChecked)
+        binding.CTVSmartHidden.isChecked = SPFManager.getSmartHidden(mainActivity)
+        binding.CTVSmartHidden.setOnClickListener {
+            binding.CTVSmartHidden.toggle()
+            SPFManager.setSmartHidden(mainActivity, binding.CTVSmartHidden.isChecked)
             val mAccessibilityService = ServiceFloating.getSharedInstance()
-            mAccessibilityService?.updateSmartHidden(CTV_smart_hidden.isChecked)
+            mAccessibilityService?.updateSmartHidden(binding.CTVSmartHidden.isChecked)
         }
         //hidden when rotate
-        CTV_hidden_when_rotate.isChecked = SPFManager.getRotateHidden(mainActivity)
-        CTV_hidden_when_rotate.setOnClickListener {
-            CTV_hidden_when_rotate.toggle()
-            SPFManager.setRotateHidden(mainActivity, CTV_hidden_when_rotate.isChecked)
+        binding.CTVHiddenWhenRotate.isChecked = SPFManager.getRotateHidden(mainActivity)
+        binding.CTVHiddenWhenRotate.setOnClickListener {
+            binding.CTVHiddenWhenRotate.toggle()
+            SPFManager.setRotateHidden(mainActivity, binding.CTVHiddenWhenRotate.isChecked)
             val mAccessibilityService = ServiceFloating.getSharedInstance()
-            mAccessibilityService?.updateRotateHidden(CTV_hidden_when_rotate.isChecked)
+            mAccessibilityService?.updateRotateHidden(binding.CTVHiddenWhenRotate.isChecked)
         }
-        IV_my_github.setOnClickListener {
+        binding.IVMyGithub.setOnClickListener {
             try {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(MY_GIT_HUB_URL))
                 startActivity(browserIntent)
@@ -106,9 +114,9 @@ class FunctionConfigFragment : Fragment(){
         val disappearAdapter = ArrayAdapter(mainActivity, android.R.layout.simple_spinner_dropdown_item,
                 resources.getStringArray(R.array.bar_disappear_time))
 
-        SP_bar_disappear_time.adapter = disappearAdapter
-        SP_bar_disappear_time.setSelection(SPFManager.getDisappearPosition(mainActivity))
-        SP_bar_disappear_time.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.SPBarDisappearTime.adapter = disappearAdapter
+        binding.SPBarDisappearTime.setSelection(SPFManager.getDisappearPosition(mainActivity))
+        binding.SPBarDisappearTime.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
 
                 var mAccessibilityService: ServiceFloating? = ServiceFloating.getSharedInstance()
@@ -126,9 +134,9 @@ class FunctionConfigFragment : Fragment(){
 
 
     fun onColorChange(colorCode: Int) {
-        IV_bg_color.setImageDrawable(ColorDrawable(colorCode))
+        binding.IVBgColor.setImageDrawable(ColorDrawable(colorCode))
         SPFManager.setSoftKeyBgGolor(mainActivity, colorCode)
-        val mAccessibilityService = ServiceFloating.getSharedInstance();
+        val mAccessibilityService = ServiceFloating.getSharedInstance()
         mAccessibilityService?.refreshSoftKey()
     }
 

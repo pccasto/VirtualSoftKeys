@@ -1,6 +1,6 @@
 package tw.com.daxia.virtualsoftkeys;
 
-import android.support.test.filters.SmallTest;
+import androidx.test.filters.SmallTest;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

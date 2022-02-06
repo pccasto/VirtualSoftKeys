@@ -3,7 +3,7 @@ package tw.com.daxia.virtualsoftkeys;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Assert;
 import org.junit.Before;

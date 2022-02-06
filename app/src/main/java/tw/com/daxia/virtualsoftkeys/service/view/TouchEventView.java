@@ -3,7 +3,7 @@ package tw.com.daxia.virtualsoftkeys.service.view;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;

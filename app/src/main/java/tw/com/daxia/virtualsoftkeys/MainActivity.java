@@ -6,11 +6,11 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.RequiresApi;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,8 +20,8 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+//import butterknife.BindView;
+//import butterknife.ButterKnife;
 import tw.com.daxia.virtualsoftkeys.common.PermissionUtils;
 import tw.com.daxia.virtualsoftkeys.common.SPFManager;
 import tw.com.daxia.virtualsoftkeys.common.ScreenHepler;
@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     private final static String permissionDialogTAG = "permissionDialog";
     private final static String accessibilityServiceDialogTAG = "accessibilityServiceDialog";
 
-    @BindView(R.id.View_touchviewer)
+    //@BindView(R.id.View_touchviewer)
     public View ViewTouchviewer;
-    @BindView(R.id.tablayout)
+   // @BindView(R.id.tablayout)
     TabLayout tablayout;
-    @BindView(R.id.RL_content)
+    //@BindView(R.id.RL_content)
     RelativeLayout RLContent;
-    @BindView(R.id.viewpager)
+    //@BindView(R.id.viewpager)
     ViewPager viewpager;
 
     /*
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        //binding = ActivityMainBinding.inflate(layoutInflater);
 
         /*
          * Init the conf
