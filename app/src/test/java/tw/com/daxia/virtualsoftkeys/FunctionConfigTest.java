@@ -1,6 +1,6 @@
 package tw.com.daxia.virtualsoftkeys;
 
-import android.app.Application;
+//import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -17,20 +17,20 @@ import tw.com.daxia.virtualsoftkeys.common.SPFManager;
 public class FunctionConfigTest {
 
     private final static String FILENAME = "filename";
-    private SharedPreferences.Editor editor;
-    private SharedPreferences sharedPreferences;
+    //private SharedPreferences.Editor editor;
+    //private SharedPreferences sharedPreferences;
 
 
     private Context context;
 
     @Before
     public void setUp() {
-        context = (Application) ApplicationProvider.getApplicationContext();
-        sharedPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+        context = ApplicationProvider.getApplicationContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         // Ensure no shared preferences have leaked from previous tests.
         Assert.assertEquals(0, sharedPreferences.getAll().size());
 
-        editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
     }
 
 

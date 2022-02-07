@@ -2,6 +2,8 @@ package tw.com.daxia.virtualsoftkeys.ui;
 
 import android.app.Dialog;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,25 +22,32 @@ import tw.com.daxia.virtualsoftkeys.common.SPFManager;
 public class DescriptionDialog extends DialogFragment implements View.OnClickListener {
 
     private CheckedTextView CTV_close_description;
-    private Button But_dismiss_description;
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         // request a window without the title
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        final Window window = dialog.getWindow();
+        if (window != null) {
+            window.requestFeature(Window.FEATURE_NO_TITLE);
+        }
         setCancelable(false);
         return dialog;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.getDialog().setCanceledOnTouchOutside(true);
+        Button But_dismiss_description;
+        final Dialog dialog = this.getDialog();
+        if (dialog != null) {
+            dialog.setCanceledOnTouchOutside(true);
+        }
         View rootView = inflater.inflate(R.layout.dialog_description, container);
-        CTV_close_description = (CheckedTextView) rootView.findViewById(R.id.CTV_close_description);
+        CTV_close_description = rootView.findViewById(R.id.CTV_close_description);
         CTV_close_description.setOnClickListener(this);
-        But_dismiss_description = (Button) rootView.findViewById(R.id.But_dismiss_description);
+        But_dismiss_description = rootView.findViewById(R.id.But_dismiss_description);
         But_dismiss_description.setOnClickListener(this);
         return rootView;
     }

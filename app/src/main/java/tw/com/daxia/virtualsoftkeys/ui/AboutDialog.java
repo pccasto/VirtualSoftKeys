@@ -2,6 +2,8 @@ package tw.com.daxia.virtualsoftkeys.ui;
 
 import android.app.Dialog;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -18,31 +20,36 @@ import tw.com.daxia.virtualsoftkeys.R;
 
 public class AboutDialog extends DialogFragment {
 
-    private StringBuilder license;
     private TextView TV_about_text;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         // request a window without the title
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        final Window window = dialog.getWindow();
+        if (window != null) {
+            window.requestFeature(Window.FEATURE_NO_TITLE);
+        }
         return dialog;
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView( @NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.getDialog().setCanceledOnTouchOutside(true);
+        final Dialog dialog = this.getDialog();
+        if (dialog != null) {
+            dialog.setCanceledOnTouchOutside(true);
+        }
         View rootView = inflater.inflate(R.layout.dialog_about, container);
-        TV_about_text = (TextView) rootView.findViewById(R.id.TV_about_text);
+        TV_about_text = rootView.findViewById(R.id.TV_about_text);
         return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        license = new StringBuilder();
+        StringBuilder license = new StringBuilder();
         license.append("This project release by APACHE License:\n");
         license.append(
                 new LicenseObj("VirtualSoftKeys", "Daxia", "2016 - 2018", LicenseObj.APACHE)
@@ -54,7 +61,7 @@ public class AboutDialog extends DialogFragment {
         TV_about_text.setText(license.toString());
     }
 
-    public class LicenseObj {
+    public static class LicenseObj {
 
         public final static int MIT = 0;
         public final static int APACHE = 1;
@@ -62,10 +69,10 @@ public class AboutDialog extends DialogFragment {
         public final static int BSD = 3;
         public final static int MPLv2 = 4;
 
-        private String softwareName;
-        private String author;
-        private String year;
-        private int license;
+        private final String softwareName;
+        private final String author;
+        private final String year;
+        private final int license;
 
         public LicenseObj(String softwareName, String author, String year, int license) {
             this.softwareName = softwareName;
@@ -75,6 +82,7 @@ public class AboutDialog extends DialogFragment {
         }
 
         public String getLicense() {
+            // this really should be replaced by a set of license resource files... or hard coded.
             switch (license) {
                 case APACHE:
                     return "\n==" + softwareName + "==\n\n" +

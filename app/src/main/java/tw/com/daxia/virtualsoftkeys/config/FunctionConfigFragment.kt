@@ -22,7 +22,7 @@ import tw.com.daxia.virtualsoftkeys.ui.ColorPickerDialogFragment
 
 class FunctionConfigFragment : Fragment(){
 
-    private val TAG = "FunctionConfigFragment"
+    private val TAG = "VirtualSoftKeys"
 
     companion object {
         fun newInstance(): FunctionConfigFragment {
@@ -38,7 +38,7 @@ class FunctionConfigFragment : Fragment(){
     private lateinit var mainActivity: MainActivity
 
     override fun onAttach(context: Context) {
-        Log.d(TAG,"onAttach")
+        Log.d(TAG,"onAttach - config frag")
         super.onAttach(context)
         mainActivity = activity as MainActivity
     }

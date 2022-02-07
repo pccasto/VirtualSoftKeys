@@ -38,8 +38,7 @@ import tw.com.daxia.virtualsoftkeys.ui.PermissionDialog;
 
 public class MainActivity extends AppCompatActivity implements ColorPickerDialogFragment.colorPickerCallback {
 
-
-    private final static String TAG = "MainActivity";
+    private static final String TAG = "VirtualSoftKeys";
     public final static int MAX_HEIGHT_PERCENTAGE = 20;
     private final static String descriptionDialogTAG = "descriptionDialog";
     private final static String permissionDialogTAG = "permissionDialog";
@@ -59,14 +58,11 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     /*
      * viewpager + Fragment
      */
-    private MainFragmentPagerAdapter pagerAdapter;
     private List<Fragment> tablayoutFragmentList;
-    private List<String> tablayoutTitleList;
 
     /*
      * Dialog
      */
-    private DescriptionDialog descriptionDialog;
     private PermissionDialog permissionDialog;
     private AccessibilityServiceErrorDialog accessibilityServiceDialog;
 
@@ -75,12 +71,12 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
      * Config
      */
     private boolean isPortrait;
-    private ActivityMainBinding binding;
+    //private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         //View view = binding.getRoot();
         setContentView(binding.getRoot());
         Log.d(TAG,"set content view in main");
@@ -168,15 +164,13 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_about:
-                AboutDialog aboutDialog = new AboutDialog();
-                aboutDialog.setCancelable(true);
-                aboutDialog.show(this.getSupportFragmentManager(), "AboutDialog");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_about ) {
+            AboutDialog aboutDialog = new AboutDialog();
+            aboutDialog.setCancelable(true);
+            aboutDialog.show(this.getSupportFragmentManager(), "AboutDialog");
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     //Android O has a bug  which is Settings.canDrawOverlays(context) not work before we restart app
@@ -184,8 +178,8 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     //https://stackoverflow.com/questions/46173460/why-in-android-o-method-settings-candrawoverlays-returns-false-when-user-has/48127195.
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void AndroidOCanDrawWorkaround() {
+        AppOpsManager opsManager = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
         if (!drawOverlays) {
-            AppOpsManager opsManager = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
             onOpChangedListener = new AppOpsManager.OnOpChangedListener() {
                 @Override
                 public void onOpChanged(String op, String packageName) {
@@ -201,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
                         null, onOpChangedListener);
             }
         } else {
-            AppOpsManager opsManager = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
             if (opsManager != null && onOpChangedListener != null) {
                 opsManager.stopWatchingMode(onOpChangedListener);
                 onOpChangedListener = null;
@@ -216,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
 
     private void showDescription() {
         Log.d(TAG,"showDescription");
+        DescriptionDialog descriptionDialog;
         if (!SPFManager.getDescriptionClose(this)) {
             descriptionDialog = new DescriptionDialog();
             descriptionDialog.show(this.getSupportFragmentManager(), descriptionDialogTAG);
@@ -234,7 +228,8 @@ public class MainActivity extends AppCompatActivity implements ColorPickerDialog
     }
 
     private void initTablayout() {
-        Log.d(TAG,"initTabLayout");
+        MainFragmentPagerAdapter pagerAdapter;
+        List<String> tablayoutTitleList;
         //init viewpager
         tablayoutFragmentList = new ArrayList<>();
         tablayoutFragmentList.add(TouchConfigFragment.Companion.newInstance());

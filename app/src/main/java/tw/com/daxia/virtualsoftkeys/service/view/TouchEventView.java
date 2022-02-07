@@ -19,7 +19,7 @@ import tw.com.daxia.virtualsoftkeys.service.ServiceFloating;
 
 public class TouchEventView implements View.OnTouchListener {
 
-    private final static int MINI_TOUCH_GESTURE_HIEGHT_SENSITIVITY = 4;
+    private final static int MINI_TOUCH_GESTURE_HEIGHT_SENSITIVITY = 4;
     private int miniTouchGestureHeight;
 
 
@@ -62,17 +62,17 @@ public class TouchEventView implements View.OnTouchListener {
     }
 
     public void updateMiniTouchGestureHeight(@Nullable Integer heightPx) {
-        miniTouchGestureHeight = heightPx / MINI_TOUCH_GESTURE_HIEGHT_SENSITIVITY;
+        miniTouchGestureHeight = heightPx / MINI_TOUCH_GESTURE_HEIGHT_SENSITIVITY;
     }
 
     public void updateParamsForLocation(WindowManager windowManager, Boolean isPortrait) {
         if (isPortrait) {
-            miniTouchGestureHeight = SPFManager.getTouchviewPortraitHeight(accessibilityService) / MINI_TOUCH_GESTURE_HIEGHT_SENSITIVITY;
+            miniTouchGestureHeight = SPFManager.getTouchviewPortraitHeight(accessibilityService) / MINI_TOUCH_GESTURE_HEIGHT_SENSITIVITY;
             //transparent color
             windowManager.addView(touchView, createTouchViewParams(SPFManager.getTouchviewPortraitHeight(accessibilityService),
                     SPFManager.getTouchviewPortraitWidth(accessibilityService), SPFManager.getTouchviewPortraitPosition(accessibilityService)));
         } else {
-            miniTouchGestureHeight = SPFManager.getTouchviewLandscapeHeight(accessibilityService) / MINI_TOUCH_GESTURE_HIEGHT_SENSITIVITY;
+            miniTouchGestureHeight = SPFManager.getTouchviewLandscapeHeight(accessibilityService) / MINI_TOUCH_GESTURE_HEIGHT_SENSITIVITY;
             //transparent color
             windowManager.addView(touchView, createTouchViewParams(SPFManager.getTouchviewLandscapeHeight(accessibilityService),
                     SPFManager.getTouchviewLandscapeWidth(accessibilityService), SPFManager.getTouchviewLandscapePosition(accessibilityService)));
@@ -101,7 +101,7 @@ public class TouchEventView implements View.OnTouchListener {
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                     PixelFormat.TRANSLUCENT);
         }
-        params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        params.gravity = Gravity.BOTTOM | Gravity.START;
         params.x = position;
         params.y = 0;
         return params;

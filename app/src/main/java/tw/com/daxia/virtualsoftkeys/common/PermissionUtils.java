@@ -14,9 +14,6 @@ public class PermissionUtils {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
-        if (!Settings.canDrawOverlays(context)) {
-            return false;
-        }
-        return true;
+        return Settings.canDrawOverlays(context);
     }
 }

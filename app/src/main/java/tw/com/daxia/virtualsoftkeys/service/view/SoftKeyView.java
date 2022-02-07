@@ -27,12 +27,6 @@ public abstract class SoftKeyView {
     protected View baseView;
     protected ImageButton IB_button_start, IB_button_end, IB_button_home;
     protected ServiceFloating accessibilityService;
-    /*
-     *  Listener
-     */
-    private View.OnTouchListener baseViewTouchListener;
-    private View.OnClickListener softKeyEventClickListener;
-    private View.OnLongClickListener softKeyEventLongClickListener;
 
     /*
      * Configure
@@ -106,6 +100,13 @@ public abstract class SoftKeyView {
     }
 
     private void setSoftKeyEvent() {
+        /*
+         *  Listener
+         */
+        //View.OnTouchListener baseViewTouchListener;
+        View.OnClickListener softKeyEventClickListener;
+        View.OnLongClickListener softKeyEventLongClickListener;
+
         softKeyEventClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,14 +152,13 @@ public abstract class SoftKeyView {
                                 // We found the activity now start the activity
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                accessibilityService.startActivity(intent);
                             } else {
                                 // Bring user to the market or let them choose an app?
                                 intent = new Intent(Intent.ACTION_VIEW);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 intent.setData(Uri.parse(GOOGLE_PLAY_LINK + Link.GOOGLE_APP_PACKAGE_NAME));
-                                accessibilityService.startActivity(intent);
                             }
+                            accessibilityService.startActivity(intent);
                             break;
                         case Intent.ACTION_VOICE_COMMAND:
                             intent = new Intent(Intent.ACTION_VOICE_COMMAND);

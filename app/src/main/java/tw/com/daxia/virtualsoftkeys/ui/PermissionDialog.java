@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -38,27 +40,36 @@ public class PermissionDialog extends DialogFragment implements View.OnClickList
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        systemAlertPermission = getArguments().getBoolean("systemAlertPermission", false);
-        accessibilityPermission = getArguments().getBoolean("accessibilityPermission", false);
+        if (getArguments() != null) {
+            systemAlertPermission = getArguments().getBoolean("systemAlertPermission", false);
+            accessibilityPermission = getArguments().getBoolean("accessibilityPermission", false);
+        }
     }
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         // request a window without the title
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        final Window window = dialog.getWindow();
+        if (window != null) {
+            window.requestFeature(Window.FEATURE_NO_TITLE);
+        }
         setCancelable(false);
         return dialog;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.getDialog().setCanceledOnTouchOutside(true);
+        final Dialog dialog = this.getDialog();
+        if (dialog != null) {
+            dialog.setCanceledOnTouchOutside(true);
+        }
         View rootView = inflater.inflate(R.layout.dialog_permission, container);
-        But_intent_system_alert = (Button) rootView.findViewById(R.id.But_intent_system_alert);
+        But_intent_system_alert = rootView.findViewById(R.id.But_intent_system_alert);
         But_intent_system_alert.setOnClickListener(this);
-        But_intent_accessibility = (Button) rootView.findViewById(R.id.But_intent_accessibility);
+        But_intent_accessibility = rootView.findViewById(R.id.But_intent_accessibility);
         But_intent_accessibility.setOnClickListener(this);
         initButton();
         return rootView;
@@ -86,9 +97,11 @@ public class PermissionDialog extends DialogFragment implements View.OnClickList
 
     private void gotoDrawOverlaysPage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getActivity().getPackageName()));
-            startActivity(intent);
+            if (getActivity() != null ){
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getActivity().getPackageName()));
+                startActivity(intent);
+            }
         }
     }
 

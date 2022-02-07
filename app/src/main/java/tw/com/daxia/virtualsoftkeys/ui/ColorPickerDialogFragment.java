@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +33,6 @@ public class ColorPickerDialogFragment extends DialogFragment implements View.On
     private int oldColor;
 
     private ColorPicker picker;
-    private SVBar svBar;
-    private OpacityBar opacitybar;
-    private Button But_setting_change_color, But_setting_cancel;
 
     private colorPickerCallback callback;
 
@@ -47,24 +46,35 @@ public class ColorPickerDialogFragment extends DialogFragment implements View.On
     }
 
     @Override
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         // request a window without the title
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        oldColor = getArguments().getInt("oldColor", Color.BLACK);
+        final Window window = dialog.getWindow();
+        if (window != null) {
+            window.requestFeature(Window.FEATURE_NO_TITLE);
+        }
+        if (getArguments() != null) {
+            oldColor = getArguments().getInt("oldColor", Color.BLACK);
+        }
         return dialog;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        this.getDialog().setCanceledOnTouchOutside(true);
+        final Dialog dialog = this.getDialog();
+        if (dialog != null) {
+            dialog.setCanceledOnTouchOutside(true);
+        }
         View rootView = inflater.inflate(R.layout.dialog_color_picker, container);
-        picker = (ColorPicker) rootView.findViewById(R.id.picker);
-        svBar = (SVBar) rootView.findViewById(R.id.svbar);
-        opacitybar = (OpacityBar) rootView.findViewById(R.id.opacitybar);
-        But_setting_change_color = (Button) rootView.findViewById(R.id.But_setting_change_color);
-        But_setting_cancel = (Button) rootView.findViewById(R.id.But_setting_cancel);
+
+        picker = rootView.findViewById(R.id.picker);
+        Button But_setting_change_color, But_setting_cancel;
+        SVBar svBar = rootView.findViewById(R.id.svbar);
+        OpacityBar opacitybar =  rootView.findViewById(R.id.opacitybar);
+        But_setting_change_color = rootView.findViewById(R.id.But_setting_change_color);
+        But_setting_cancel = rootView.findViewById(R.id.But_setting_cancel);
 
         picker.addSVBar(svBar);
         picker.addOpacityBar(opacitybar);
@@ -78,14 +88,14 @@ public class ColorPickerDialogFragment extends DialogFragment implements View.On
 
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
         try {
             callback = (colorPickerCallback) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
+            throw new ClassCastException(context
                     + " must implement colorPickerCallback");
         }
     }

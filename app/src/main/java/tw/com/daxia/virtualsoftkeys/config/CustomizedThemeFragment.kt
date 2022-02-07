@@ -16,7 +16,7 @@ import tw.com.daxia.virtualsoftkeys.databinding.FragmentCustomizedthemeBinding
 
 class CustomizedThemeFragment : Fragment() {
 
-    private val TAG = "CustomizedThemeFragment"
+    private val TAG = "VirtualSoftKeys"
 
     private var _binding: FragmentCustomizedthemeBinding? = null
     // This property is only valid between onCreateView and
@@ -32,7 +32,7 @@ class CustomizedThemeFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
 
     override fun onAttach(context: Context) {
-        Log.d(TAG, "onAttach")
+        Log.d(TAG, "onAttach - theme frag")
         super.onAttach(context)
         mainActivity = activity as MainActivity
     }

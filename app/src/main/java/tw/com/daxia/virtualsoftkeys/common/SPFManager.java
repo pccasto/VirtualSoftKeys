@@ -29,7 +29,7 @@ public class SPFManager {
     /* stylus */
     private static final String CONFIG_STYLUS_ONLY_MODE = "STYLUS_ONLY_MODE";
     /* Replace it from bg color */
-    private static final String CONFIG_TRANSPARENT_BG = "TRANSPARENT_BG";
+    //private static final String CONFIG_TRANSPARENT_BG = "TRANSPARENT_BG";
     private static final String CONFIG_NVBAR_BG_COLOR = "NVBAR_BG_COLOR";
 
     private static final String CONFIG_DISAPPEAR_TIME = "DISAPPEAR_TIME";
@@ -68,7 +68,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(CONFIG_P_TOUCHVIEW_HEIGHT, heightPx);
-        PE.commit();
+        PE.apply();
     }
 
     public static int getTouchviewPortraitWidth(Context context) {
@@ -80,7 +80,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(CONFIG_P_TOUCHVIEW_WIDTH, widthPx);
-        PE.commit();
+        PE.apply();
     }
 
     public static int getTouchviewPortraitPosition(Context context) {
@@ -93,7 +93,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(CONFIG_P_TOUCHVIEW_POSITION, position);
-        PE.commit();
+        PE.apply();
     }
 
     /**
@@ -109,7 +109,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(CONFIG_L_TOUCHVIEW_HEIGHT, heightPx);
-        PE.commit();
+        PE.apply();
     }
 
     public static int getTouchviewLandscapeWidth(Context context) {
@@ -121,7 +121,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(CONFIG_L_TOUCHVIEW_WIDTH, widthPx);
-        PE.commit();
+        PE.apply();
     }
 
     public static int getTouchviewLandscapePosition(Context context) {
@@ -134,7 +134,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(CONFIG_L_TOUCHVIEW_POSITION, position);
-        PE.commit();
+        PE.apply();
     }
 
 
@@ -151,7 +151,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(CONFIG_NVBAR_BG_COLOR, nvBarColor);
-        PE.commit();
+        PE.apply();
     }
 
     public static boolean getStylusOnlyMode(Context context) {
@@ -163,15 +163,15 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putBoolean(CONFIG_STYLUS_ONLY_MODE, stylusOnly);
-        PE.commit();
+        PE.apply();
     }
 
 
     /**
      * Get the disappear time array position
      *
-     * @param context
-     * @return
+     * @param context context of the window
+     * @return time to disappear in seconds
      */
     public static int getDisappearPosition(Context context) {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
@@ -182,14 +182,14 @@ public class SPFManager {
     /**
      * Save the disappear time array position
      *
-     * @param context
+     * @param context of the window
      * @param position by bar_disappear_time
      */
     public static void setDisappearPosition(Context context, int position) {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(CONFIG_DISAPPEAR_TIME, position);
-        PE.commit();
+        PE.apply();
     }
 
 
@@ -202,7 +202,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putBoolean(CONFIG_SMART_HIDDEN, smartHidden);
-        PE.commit();
+        PE.apply();
     }
 
     public static boolean getRotateHidden(Context context) {
@@ -214,7 +214,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putBoolean(CONFIG_ROTATE_HIDDEN, hiddenWhenRotate);
-        PE.commit();
+        PE.apply();
     }
 
     public static boolean getReverseFunctionButton(Context context) {
@@ -226,7 +226,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putBoolean(CONFIG_REVERSE_BUTTON, reverseButton);
-        PE.commit();
+        PE.apply();
     }
 
     public static String getHomeLongClickStartAction(Context context) {
@@ -239,7 +239,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putString(CONFIG_HOME_LONG_CLICK_START_ACTION, packagenameOrIntent);
-        PE.commit();
+        PE.apply();
     }
 
 
@@ -256,7 +256,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_CONFIG_NEME, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putBoolean(DESCRIPTION_CLOSE, close);
-        PE.commit();
+        PE.apply();
     }
 
     /**
@@ -268,13 +268,13 @@ public class SPFManager {
         SharedPreferences.Editor PE = settings.edit();
         PE.putString(CRASHLOG_MESSAGE, message);
         PE.putBoolean(CRASHLOG_LAST_CRASH, true);
-        PE.commit();
+        PE.apply();
     }
 
     public static String getLastCrashLog(Context context) {
         SharedPreferences settings = context.getSharedPreferences(SPF_CRASHLOG, 0);
         SharedPreferences.Editor PE = settings.edit();
-        PE.putBoolean(CRASHLOG_LAST_CRASH, false).commit();
+        PE.putBoolean(CRASHLOG_LAST_CRASH, false).apply();
         return settings.getString(CRASHLOG_MESSAGE, "");
     }
 
@@ -291,7 +291,7 @@ public class SPFManager {
         SharedPreferences settings = context.getSharedPreferences(SPF_SYSTEM, 0);
         SharedPreferences.Editor PE = settings.edit();
         PE.putInt(SYSTEM_VERSIONCODE, BuildConfig.VERSION_CODE);
-        PE.commit();
+        PE.apply();
     }
 
 

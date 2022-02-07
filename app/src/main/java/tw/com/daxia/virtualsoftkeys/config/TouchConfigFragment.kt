@@ -21,7 +21,7 @@ import tw.com.daxia.virtualsoftkeys.service.ServiceFloating
 
 class TouchConfigFragment : Fragment() {
 
-    private val TAG = "TouchConfigFragment"
+    private val TAG = "VirtualSoftKeys"
 
     private var _binding: FragmentTouchconfigBinding? = null
     // This property is only valid between onCreateView and
@@ -148,7 +148,7 @@ class TouchConfigFragment : Fragment() {
     }
 
     override fun onAttach(context: Context) {
-        Log.d(TAG,"onAttach")
+        Log.d(TAG,"onAttach - touch config frag")
         super.onAttach(context)
         mainActivity = activity as MainActivity
     }
@@ -262,7 +262,5 @@ class TouchConfigFragment : Fragment() {
                 updateTouchViewPosition(touchviewWidth, SPFManager.getTouchviewLandscapePosition(mainActivity))
             }
         }
-
-
     }
 }

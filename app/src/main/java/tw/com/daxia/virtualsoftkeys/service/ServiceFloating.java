@@ -30,7 +30,6 @@ import tw.com.daxia.virtualsoftkeys.setting.DisappearObj;
 
 public class ServiceFloating extends AccessibilityService {
 
-
     private static ServiceFloating sSharedInstance;
     /**
      * Handler
@@ -103,11 +102,7 @@ public class ServiceFloating extends AccessibilityService {
         boolean canDrawOverlays = PermissionUtils.checkSystemAlertWindowPermission(this);
         if (canDrawOverlays) {
             windowManager = (WindowManager) getSystemService(Service.WINDOW_SERVICE);
-            if (ScreenHelper.isPortrait(getResources())) {
-                isPortrait = true;
-            } else {
-                isPortrait = false;
-            }
+            isPortrait = ScreenHelper.isPortrait(getResources());
             initTouchView();
         } else {
             Toast.makeText(this, getString(R.string.Toast_allow_system_alert_first), Toast.LENGTH_LONG).show();
@@ -241,7 +236,7 @@ public class ServiceFloating extends AccessibilityService {
 
     private static class SoftKeyBarHandler extends Handler {
 
-        private WeakReference<ServiceFloating> mService;
+        private final WeakReference<ServiceFloating> mService;
 
         SoftKeyBarHandler(ServiceFloating aService) {
             mService = new WeakReference<>(aService);

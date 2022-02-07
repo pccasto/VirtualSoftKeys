@@ -22,11 +22,9 @@ import tw.com.daxia.virtualsoftkeys.service.ServiceFloating;
 
 public class SoftKeyTabletLandscapeView extends SoftKeyView {
 
-
     public SoftKeyTabletLandscapeView(ServiceFloating accessibilityService) {
         super(accessibilityService);
     }
-
 
     @Override
     void initBaseView() {

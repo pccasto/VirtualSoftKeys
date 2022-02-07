@@ -19,12 +19,9 @@ import tw.com.daxia.virtualsoftkeys.service.ServiceFloating;
 
 public class SoftKeyTabletPortraitView extends SoftKeyView {
 
-
     public SoftKeyTabletPortraitView(ServiceFloating accessibilityService) {
         super(accessibilityService);
     }
-
-
 
     @Override
      void initBaseView() {

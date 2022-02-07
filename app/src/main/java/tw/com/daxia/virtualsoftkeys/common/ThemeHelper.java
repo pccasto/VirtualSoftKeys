@@ -19,8 +19,8 @@ public class ThemeHelper {
      * It should be return Drawable , or you will get the VerifyError on pre-lollipop devices.
      * See http://stackoverflow.com/questions/31474297/could-not-find-rippledrawable
      *
-     * @param pressedColor
-     * @return
+     * @param pressedColor selected color from UI
+     * @return color from ripple
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static Drawable getPressedColorRippleDrawable(int pressedColor) {
@@ -38,10 +38,6 @@ public class ThemeHelper {
 
     public static boolean isColorDark(int color) {
         double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
-        if (darkness < 0.5) {
-            return false; // It's a light color
-        } else {
-            return true; // It's a dark color
-        }
+        return (darkness < 0.5);
     }
 }

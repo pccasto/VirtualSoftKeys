@@ -20,7 +20,7 @@ public class DisappearObj {
     public final static int TIME_5S = 5000;
 
     private int configTime;
-    private Context context;
+    private final Context context;
 
     public DisappearObj(Context context) {
         this.context = context;
@@ -39,8 +39,8 @@ public class DisappearObj {
     /**
      * Position is form bar_disappear_time.
      *
-     * @param spinnerPosition
-     * @return
+     * @param spinnerPosition Selector for time to display bar
+     * @return Time in seconds (or -1 for never)
      */
     public int getTimeByPosition(int spinnerPosition) {
         int disappearTime;
